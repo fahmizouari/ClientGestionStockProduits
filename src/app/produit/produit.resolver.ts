@@ -12,4 +12,7 @@ export class ProduitResolver implements Resolve<any>{
         return this.produitService.getProduit();
     }
 
+  
+    
+
 }

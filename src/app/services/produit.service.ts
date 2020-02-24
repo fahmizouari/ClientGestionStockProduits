@@ -5,6 +5,8 @@ import { API_URLS } from '../config/api.url.config';
 import {Produit} from '../produit/produit';
 
 
+
+
 @Injectable()
 export class ProduitService{
     constructor (private http:HttpClient){
@@ -14,6 +16,8 @@ export class ProduitService{
     getProduit():Observable<any>{
         return this.http.get(API_URLS.PRODUITS_URL);
     }
+    
+  
     addProduit(produit:Produit):Observable<any>{
         return this.http.post(API_URLS.PRODUITS_URL,produit);
 
@@ -23,9 +27,9 @@ export class ProduitService{
 
     }
 
-    deleteProduit(ref:string):Observable<any>{
+    deleteProduit(id:number):Observable<any>{
     
-    return this.http.delete(API_URLS.PRODUITS_URL+'/'+ref);
+    return this.http.delete(API_URLS.PRODUITS_URL+'/'+id);
 
     }
 }

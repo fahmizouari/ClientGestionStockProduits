@@ -38,6 +38,8 @@ export class ProduitComponent implements OnInit {
     this.produits=this.route.snapshot.data.produits;
   }
 
+  
+
   loadProduits(){
     this.produitService.getProduit().subscribe(
       data=>{this.produits=data},
@@ -68,7 +70,7 @@ export class ProduitComponent implements OnInit {
   }
 
   deleteProduit(){
-    this.produitService.deleteProduit(this.selectedProduit.ref).subscribe(
+    this.produitService.deleteProduit(this.selectedProduit.id).subscribe(
       res=>{
         this.selectedProduit=new Produit();
         this.loadProduits();

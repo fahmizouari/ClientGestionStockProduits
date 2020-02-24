@@ -15,6 +15,11 @@
 
         <button class="btn btn-lg btn-primary btn-block"  (click)="onSignIn()">Sign in</button>
 
+        <div class="mt-4">
+            <div class="d-flex justify-content-center links">
+        Don't have an account? <a [routerLink]="" (click)="onSignIn()" class="ml-2">Sign Up</a> 
+            </div>
+        </div>
         <p class="mt-5 mb-3 text-muted">© 2020-2022</p>
     </div>
     <button class="btn btn-lg btn-primary btn-block" *ngIf="authStatus"  (click)="onSignOut()">Sign out</button>

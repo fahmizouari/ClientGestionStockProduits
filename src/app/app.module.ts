@@ -9,10 +9,10 @@ import { AppComponent } from './app.component';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { ProduitComponent } from './produit/produit.component';
 import { AuthentificationComponent } from './authentification/authentification.component';
-import { AuthService } from './services/auth.service';
 import { ProduitService } from './services/produit.service';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { UserService } from './services/user.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import { UserService } from './services/user.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [AuthService,ProduitService,UserService],
+  providers: [AuthGuard,ProduitService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

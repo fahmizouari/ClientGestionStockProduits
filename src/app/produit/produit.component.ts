@@ -53,7 +53,7 @@ export class ProduitComponent implements OnInit {
     this.produitService.addProduit(p).subscribe(
       res=>{
         this.initProduit();
-        this.produits=this.route.snapshot.data.produits;
+        this.loadProduits();
       }
     );
 

@@ -6,13 +6,14 @@ import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { ProduitComponent } from './produit/produit.component';
 import { ProduitResolver } from './produit/produit.resolver'
 import { InscriptionComponent } from './inscription/inscription.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   
   {path:"login",component:AuthentificationComponent},
   {path:"signup",component:InscriptionComponent},
   {path:"not-found",component:FourOhFourComponent},
-  {path:"produit",component:ProduitComponent,resolve:{produits:ProduitResolver}},
+  {path:"produit",canActivate:[AuthGuard],component:ProduitComponent,resolve:{produits:ProduitResolver}},
   {path:"**",redirectTo:'/not-found'}
 
 ];

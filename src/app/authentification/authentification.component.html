@@ -3,18 +3,21 @@
         <div class="card bg-light mb-3" >
             <div class="card-header">Sign in</div>
             <div class="card-body text-secondary">
-                <form [formGroup]="" *ngIf="!authStatus">
+                <div *ngIf="user">
+                {{user.nom}}
+                </div>
+                <form [formGroup]="loginForm" *ngIf="!authStatus">
                 
 
                     <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+                    <input type="text" class="form-control" formControlName="email" >
                     
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                    <input type="password" class="form-control" formControlName="mdp" >
                     
                     <br>
             
-                    <button class="btn btn-lg btn-primary btn-block"  (click)="onSignIn()">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block"  (click)="login()">Sign in</button>
             
                     <div class="mt-4">
                         <div class="d-flex justify-content-center links">

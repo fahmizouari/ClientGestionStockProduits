@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { User } from '../inscription/user';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-authentification',
@@ -10,26 +12,84 @@ import { Router } from '@angular/router';
 export class AuthentificationComponent implements OnInit {
   
   authStatus:boolean;
+  user:User;
+  loginForm: FormGroup;
   
-  constructor(private authService :AuthService, private router:Router) { }
+  constructor(private userService :UserService,private fb :FormBuilder, private router:Router,private route:ActivatedRoute) {
+    this.initUser();
+   }
+   
+   ngOnInit(): void {
+    this.authStatus=this.userService.isAuth;
 
-  ngOnInit(): void {
+    this.initUser();
+    this.user=this.route.snapshot.data.user;
+
+
   }
 
+   initUser(){
+    this.user=new User();
+    this.createForm();
 
+  }
+  
+  createForm(){
+    this.loginForm=this.fb.group(
+      {
+        email: ['',Validators.required],
+        mdp:''
+      }
+    );
+   }
+
+  
+
+  testLogin(){
+    if(this.user)
+{
+  this.authStatus=this.userService.isAuth;
+  console.log('cnx réussie');
+}
+else{
+  console.log('échec de cnx');
+}
+  }
   onSignIn(){
-    this.authService.signIn();
+    const u=this.loginForm.value;
     
-      this.authStatus=this.authService.isAuth;
-      console.log('cnx réussie');
-
-
-
+    this.userService.signIn(u).subscribe(
+      data=>{this.user=data,this.testLogin()},
+      error=>{console.log('an error was occured')},
+      ()=>(console.log('loading produit was done'))
+    );
+  
+ 
   }
+
+
+  login() {
+    const u=this.loginForm.value;
+    
+    this.userService.login(u);
+        }
+
+
   onSignOut(){
-    this.authService.signOut();
-    this.authStatus=this.authService.isAuth;
+    this.userService.signOut();
+    this.authStatus=this.userService.isAuth;
 
 
   }
 }
+
+
+
+
+
+
+
+
+
+
+

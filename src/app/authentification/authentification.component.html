@@ -1,28 +1,35 @@
+<div class="row d-flex justify-content-center">
+    <div class="w-50 p-3 text-center">
+        <div class="card bg-light mb-3" >
+            <div class="card-header">Sign in</div>
+            <div class="card-body text-secondary">
+                <form [formGroup]="" *ngIf="!authStatus">
+                
 
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+                    
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                    
+                    <br>
+            
+                    <button class="btn btn-lg btn-primary btn-block"  (click)="onSignIn()">Sign in</button>
+            
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-center links">
+                            Don't have an account? 
+                            <a routerLink='/signup' class="ml-2">Sign Up</a> 
+                        </div>
+                    </div>
+                    <p class="mt-5 mb-3 text-muted">© 2020-2022</p>
+                </form>
+            <button class="btn btn-lg btn-primary btn-block" *ngIf="authStatus"  (click)="onSignOut()">Sign out</button>
 
-<body class="container text-center mt-5">
-    <div class="form-signin " *ngIf="!authStatus">
-        <div class="glyphicon glyphicon-user"  alt="" width="72" height="72"></div>
-        <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
-        
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-        
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-        
-        <br>
-
-        <button class="btn btn-lg btn-primary btn-block"  (click)="onSignIn()">Sign in</button>
-
-        <div class="mt-4">
-            <div class="d-flex justify-content-center links">
-        Don't have an account? <a [routerLink]="" (click)="onSignIn()" class="ml-2">Sign Up</a> 
+            
             </div>
         </div>
-        <p class="mt-5 mb-3 text-muted">© 2020-2022</p>
+
     </div>
-    <button class="btn btn-lg btn-primary btn-block" *ngIf="authStatus"  (click)="onSignOut()">Sign out</button>
+</div>
 
-
-</body>

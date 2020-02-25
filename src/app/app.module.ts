@@ -11,6 +11,8 @@ import { ProduitComponent } from './produit/produit.component';
 import { AuthentificationComponent } from './authentification/authentification.component';
 import { AuthService } from './services/auth.service';
 import { ProduitService } from './services/produit.service';
+import { InscriptionComponent } from './inscription/inscription.component';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { ProduitService } from './services/produit.service';
     AppComponent,
     FourOhFourComponent,
     ProduitComponent,
-    AuthentificationComponent
+    AuthentificationComponent,
+    InscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { ProduitService } from './services/produit.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [AuthService,ProduitService],
+  providers: [AuthService,ProduitService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

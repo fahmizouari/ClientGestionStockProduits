@@ -12,7 +12,12 @@ import { AuthentificationComponent } from './authentification/authentification.c
 import { ProduitService } from './services/produit.service';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { UserService } from './services/user.service';
-import { AuthGuard } from './services/auth-guard.service';
+import { UserComponent } from './user/user.component';
+import { AdminComponent } from './admin/admin.component';
+import { HomeComponent } from './home/home.component';
+import { httpInterceptorProviders } from './auth/auth-interceptor';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 
 @NgModule({
@@ -21,7 +26,11 @@ import { AuthGuard } from './services/auth-guard.service';
     FourOhFourComponent,
     ProduitComponent,
     AuthentificationComponent,
-    InscriptionComponent
+    InscriptionComponent,
+    UserComponent,
+    AdminComponent,
+    HomeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +38,7 @@ import { AuthGuard } from './services/auth-guard.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [AuthGuard,ProduitService,UserService],
+  providers: [AuthGuard,ProduitService,UserService,httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

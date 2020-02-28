@@ -1,19 +1,17 @@
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center" *ngIf="!isLoggedIn">
     <div class="w-50 p-3 text-center">
         <div class="card bg-light mb-3" >
             <div class="card-header">Sign in</div>
             <div class="card-body text-secondary">
-                <div *ngIf="user">
-                {{user.nom}}
-                </div>
-                <form [formGroup]="loginForm" *ngIf="!authStatus">
+                
+                <form [formGroup]="loginForm" >
                 
 
-                    <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="text" class="form-control" formControlName="email" >
+                    <label for="inputusername" class="sr-only">username</label>
+                    <input type="text" class="form-control" formControlName="username" >
                     
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" class="form-control" formControlName="mdp" >
+                    <input type="password" class="form-control" formControlName="password" >
                     
                     <br>
             
@@ -27,7 +25,6 @@
                     </div>
                     <p class="mt-5 mb-3 text-muted">© 2020-2022</p>
                 </form>
-            <button class="btn btn-lg btn-primary btn-block" *ngIf="authStatus"  (click)="onSignOut()">Sign out</button>
 
             
             </div>
@@ -36,3 +33,11 @@
     </div>
 </div>
 
+<div *ngIf="isLoggedIn">
+  <br>  {{user.username}}
+  <br>  {{user.username}}
+  <br>  {{user.username}}
+  <br>  {{user.username}}
+  <br>  {{user.username}}
+  <br>  {{user.username}}
+</div>

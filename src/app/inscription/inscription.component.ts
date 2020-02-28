@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from './user';
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { SignUpInfo } from '../auth/signup-info';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-inscription',
@@ -11,42 +13,51 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InscriptionComponent implements OnInit {
   userForm: FormGroup;
-  user:User;
-  constructor(private userService: UserService,private fb :FormBuilder ,private route:ActivatedRoute) {
+
+  user: SignUpInfo;
+  isSignedUp = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+  constructor(private fb :FormBuilder ,private authService: AuthService) {
     this.initUser();
-
    }
-
-   createForm(){
-    this.userForm=this.fb.group(
-      {
-        
-        prenom:['',Validators.required],
-        nom: ['',Validators.required],
-        email:['',Validators.required],
-        mdp:['',Validators.required]
-      }
-    );
-   }
-
-
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.initUser();
-    this.user=this.route.snapshot.data.user;
   }
+
   initUser(){
-    this.user=new User();
+    this.user=new SignUpInfo();
     this.createForm();
 
   }
-  SignUp(){
-    const u=this.userForm.value;
-    this.userService.addUser(u).subscribe(
-      res=>{
-        this.initUser();
-        this.user=this.route.snapshot.data.user;
+   createForm(){
+    this.userForm=this.fb.group(
+      {
+        name:['',Validators.required],
+        username: ['',Validators.required],
+        email:['',Validators.required],
+        password:['',Validators.required]
       }
     );
+   }
+  
+  SignUp(){
+    const u=this.userForm.value;
+    console.log()
+    this.authService.signUp(u).subscribe(
+      data => {
+        console.log(data);
+        this.isSignedUp = true;
+        this.isSignUpFailed = false;
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = error.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
+    
+
   }
 
 }

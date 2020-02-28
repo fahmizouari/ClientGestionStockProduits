@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../services/user.service';
-import { User } from '../inscription/user';
+
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { TokenStorageService } from '../auth/token-storage.service';
+import { AuthLoginInfo } from '../auth/login-info';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentification',
@@ -11,75 +14,78 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AuthentificationComponent implements OnInit {
   
-  authStatus:boolean;
-  user:User;
+  
+  isLoggedIn = false;
+  isLoginFailed = false;
+  errorMessage = '';
+  roles: string[] = [];
+
+  user:AuthLoginInfo;
   loginForm: FormGroup;
   
-  constructor(private userService :UserService,private fb :FormBuilder, private router:Router,private route:ActivatedRoute) {
-    this.initUser();
+  constructor(private authService: AuthService, private fb :FormBuilder,private tokenStorage: TokenStorageService,private router:Router) {
+    console.log("constructor");
+    
+    this.createForm();
+
+    if (this.tokenStorage.getToken()) {
+      this.isLoggedIn = true;
+      this.roles = this.tokenStorage.getAuthorities();
+    }
+
    }
    
    ngOnInit(): void {
-    this.authStatus=this.userService.isAuth;
+    console.log("ngOnInit");
 
     this.initUser();
-    this.user=this.route.snapshot.data.user;
-
-
   }
 
    initUser(){
-    this.user=new User();
+    this.user=new AuthLoginInfo();
     this.createForm();
 
   }
-  
   createForm(){
     this.loginForm=this.fb.group(
       {
-        email: ['',Validators.required],
-        mdp:''
+        username: ['',Validators.required],
+        password:['',Validators.required]
       }
     );
    }
 
-  
-
-  testLogin(){
-    if(this.user)
-{
-  this.authStatus=this.userService.isAuth;
-  console.log('cnx réussie');
-}
-else{
-  console.log('échec de cnx');
-}
-  }
-  onSignIn(){
-    const u=this.loginForm.value;
-    
-    this.userService.signIn(u).subscribe(
-      data=>{this.user=data,this.testLogin()},
-      error=>{console.log('an error was occured')},
-      ()=>(console.log('loading produit was done'))
-    );
-  
- 
-  }
-
 
   login() {
-    const u=this.loginForm.value;
-    
-    this.userService.login(u);
-        }
+    const loginInfo=this.loginForm.value;
 
 
-  onSignOut(){
-    this.userService.signOut();
-    this.authStatus=this.userService.isAuth;
+    this.authService.attemptAuth(loginInfo).subscribe(
+      data => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUsername(data.username);
+        this.tokenStorage.saveAuthorities(data.authorities);
+
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.roles = this.tokenStorage.getAuthorities();
+        //-------------------------
+        this.reloadPage();
+        
+        //this.router.navigateByUrl('/home', { skipLocationChange: false });
 
 
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = error.error.message;
+        this.isLoginFailed = true;
+      }
+    );
+
+  }
+  reloadPage() {
+    window.location.replace('/home');
   }
 }
 

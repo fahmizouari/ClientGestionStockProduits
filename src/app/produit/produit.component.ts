@@ -19,7 +19,7 @@ export class ProduitComponent implements OnInit {
   selectedRef:string='';
   produitForm: FormGroup;
   constructor(private produitService: ProduitService,private fb :FormBuilder, private route:ActivatedRoute) {
-    
+    console.log("constructor");
     this.createForm();
    }
 
@@ -33,6 +33,7 @@ export class ProduitComponent implements OnInit {
     );
    }
   ngOnInit(): void {
+    console.log("ngOnInit");
     this.initProduit();
     //this.loadProduits();
     this.produits=this.route.snapshot.data.produits;
